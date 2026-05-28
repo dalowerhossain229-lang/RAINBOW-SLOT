@@ -94,7 +94,7 @@
         const itemHeight = 70;
         const startX = (canvas.width - (3 * reelwidth)) / 2;
 
-                // 🚀 [রিল কম্বিনেশন অমিল এবং ক্যানভাস ড্রয়িং জ্যাম ১০০০০০% চিরতরে ফিক্সড ভাই ভাই]
+                // 🚀 [কালো স্ক্রিন এবং ফ্রুট উধাও জ্যাম ১০০০০০% চিরতরে ফিক্সড বর্ম ভাই ভাই]
         function renderSlotMachine() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -103,17 +103,17 @@
             for (let i = 0; i < 3; i++) {
                 const rx = startX + (i * colWidth);
 
-                // ৩টি রিল কলামের নিয়াল ব্যাকগ্রাউন্ড বডি
+                // ৩টি রিল কলামের নিয়াল ব্যাকগ্রাউন্ড বডি
                 ctx.fillStyle = "#0f1524";
                 ctx.fillRect(rx, 0, colWidth - 6, reelHeight);
                 ctx.strokeStyle = "#1a233d";
                 ctx.lineWidth = 2;
                 ctx.strokeRect(rx, 0, colWidth - 6, reelHeight);
 
-                // 🎯 [মাস্টার সিঙ্ক চাবি]: রিল মেমরির ১ম, ২য় ও ৩য় আইকন সরাসরি যথাক্রমে ওপর, মাঝখান ও নিচের লাইনে লক ভাই ভাই!
-                const iconTop    = reels[i].symbols[1] || "🍒"; // ওপরের সারির আইকন
-                const iconMiddle = reels[i].symbols[0] || "🍋"; // 🚀 মাঝখানের উইনিং সারির আইকন (১০০% সার্ভার ডাটা সিঙ্ক)
-                const iconBottom = reels[i].symbols[2] || "🔔"; // নিচের সারির আইকন
+                // 🎯 [বাগ ফিক্সড সিঙ্ক চাবি]: রিল মেমরির ওরিজিনাল সিম্বল অ্যারে পজিশন কড়া টাইট লক ভাই ভাই!
+                const iconTop    = reels[i].symbols[0] || "🍒"; // ওপরের সারির ফল
+                const iconMiddle = reels[i].symbols[1] || "🍋"; // 🚀 মাঝখানের মেইন উইনিং ফল (১০০% সার্ভার ডাটা সিঙ্ক)
+                const iconBottom = reels[i].symbols[2] || "🔔"; // নিচের সারির ফল
 
                 ctx.fillStyle = "#ffffff";
                 ctx.font = "40px Arial";
@@ -127,15 +127,15 @@
                 const targetCenterX = rx + (colWidth - 6) / 2;
 
                 // ১. ওপরের সারির ফল ড্রয়িং (অফসেট -৬৫ পিক্সেল ওপরে)
-                const topEmoji = iconSymbols[topIcon] || iconSymbols[iconTop] || iconTop;
+                const topEmoji = iconSymbols[iconTop] || iconTop;
                 ctx.fillText(topEmoji, targetCenterX, (canvas.height / 2) - 65);
 
                 // ২. 🚀 [চূড়ান্ত ফিক্স - মাঝখানের মেইন লাইন]: ডাটাবেজের আসল ফল সরাসরি গোল্ডেন লাইনের ওপর ড্র ভাই ভাই!
-                const midEmoji = iconSymbols[midIcon] || iconSymbols[iconMiddle] || iconMiddle;
+                const midEmoji = iconSymbols[iconMiddle] || iconMiddle;
                 ctx.fillText(midEmoji, targetCenterX, canvas.height / 2);
 
-                // ৩. নিচের সারির ফল ড্রয়িং (অফসেট +৬৫ পিক্সেল নিচে)
-                const botEmoji = iconSymbols[bottomIcon] || iconSymbols[iconBottom] || iconBottom;
+                //３. নিচের সারির ফল ড্রয়িং (অফসেট +৬৫ পিক্সেল নিচে)
+                const botEmoji = iconSymbols[iconBottom] || iconBottom;
                 ctx.fillText(botEmoji, targetCenterX, (canvas.height / 2) + 65);
 
                 ctx.shadowBlur = 0;
@@ -149,9 +149,7 @@
             ctx.lineTo(startX + (3 * colWidth) - 6, canvas.height / 2);
             ctx.stroke();
         }
-
-
-            
+        
 
         function updateSlotAnimation() {
             let stillSpinning = false;
