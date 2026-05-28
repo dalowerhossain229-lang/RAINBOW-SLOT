@@ -239,7 +239,7 @@
         }
         
         
-             // 🚀 [রিল স্টপিং এবং কম্বিনেশন অমিল সম্পূর্ণ ফিক্সড কিংস বর্ম ভাই ভাই]
+              // 🚀 [রিল কম্বিনেশন অমিল এবং ইনডেক্স জ্যাম ১০০০০০% চিরতরে ফিক্সড কিংস বর্ম ভাই ভাই]
         async function handleSlotSpin() {
             if (isSpinning) return;
 
@@ -252,10 +252,10 @@
             playAudio('click');
             playAudio('spin'); 
 
-            // স্পিন শুরুর বুস্টিং স্পিড পুশ ভাই ভাই
-            reels[0].speed = 18;
-            reels[1].speed = 22;
-            reels[2].speed = 26;
+            // ৩টি রিলের ঘূর্ণন স্পিড ফিজিক্স অন ফায়ার লক ভাই ভাই
+            reels[0].speed = 20;
+            reels[1].speed = 24;
+            reels[2].speed = 28;
             
             requestAnimationFrame(updateSlotAnimation);
 
@@ -277,28 +277,28 @@
                     if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
                     if (window.top) window.top.postMessage({ action: "refresh_wallet" }, "*");
 
-                    // 🎯 [ওরিজিনাল কম্বিনেশন সিঙ্ক চাবি]: সার্ভার থেকে আসা ১ শতভাগ রিয়াল ডাটা আইকন সরাসরি রিল মেমরিতে পুশ লক ভাই ভাই!
+                    // 🎯 [ওরিজিনাল ইনডেক্স সিঙ্ক চাবি]: ৩টি রিল কলামে আলাদা আলাদাভাবে ডাটাবেজের উইনিং ফল মাঝখানের সারিতে ১০০% ম্যাচিং লক!
                     setTimeout(() => { 
-                        reels[0].symbols = [data.reel1, "🍉", "🍒", "🍋"]; 
+                        reels[0].symbols = [data.reel1, "🍉", "🍒", "LEMON"]; 
                         reels[0].speed = 0; 
                         reels[0].y = 0;
                         playAudio('click1'); 
                     }, 800);
                     
                     setTimeout(() => { 
-                        reels[1].symbols = [data.reel2, "🍋", "GRAPE", "BAR"]; 
+                        reels[1].symbols = [data.reel2, "LEMON", "GRAPE", "BAR"]; 
                         reels[1].speed = 0; 
                         reels[1].y = 0;
                         playAudio('click1'); 
                     }, 1200);
                     
                     setTimeout(() => {
-                        reels[2].symbols = [data.reel3, "🔔", "BAR", "CHERRY"]; 
+                        reels[2].symbols = [data.reel3, "BAR", "CHERRY", "🍉"]; 
                         reels[2].speed = 0; 
                         reels[2].y = 0;
-                        playAudio('click1'); 
+                        playAudio('click1'); // ৩ নম্বর রিল লক হওয়ার ফাইনাল সাউন্ড
                         
-                        // ৩টি কলাম ফিক্সড লক হওয়ার পর ফাইনাল পুরষ্কার ডিক্লেয়ার হবে ভাই ভাই
+                        // ৩টি রিল কলাম ওরিজিনাল ডাটায় স্থির হওয়ার পর ফাইনাল পুরষ্কার নিয়ন বারে ভেসে উঠবে ভাই ভাই
                         setTimeout(() => {
                             showFinalReward(data.status, data.winAmount, data.reel1);
                         }, 400);
@@ -315,6 +315,7 @@
                 stopSlotState();
             }
         }
+                       
    
 
         
