@@ -71,41 +71,47 @@
         let isMuted = false;
         let autoInterval = null;
 
-        // 🍒🍋🍊🔔💎 রাজকীয় নিয়ন স্লট আইকন মেমোরি ম্যাপ ভাই ভাই
+                // 🚀 [বিচ্ছিরি টেক্সট জ্যাম সম্পূর্ণ ফিক্সড বর্ম]: কাঁচা টেক্সটের বদলে পিউর লাক্সারি নিওন ফ্রুট ইমোজি ম্যাপিং ভাই ভাই!
         const iconSymbols = {
-            "CHERRY": "🍒", "LEMON": "🍋", "ORANGE": "🍊", "BAR": "🍫", "DIAMOND": "💎"
+            "CHERRY": "🍒",
+            "LEMON": "🍋",
+            "ORANGE": "🍊",
+            "PLUM": "🍇", 
+            "GRAPE": "🍇",
+            "WATERMELON": "🍉",
+            "BAR": "🔔"
         };
 
-        // ৩টি রিলের লাইভ স্ক্রলিং পজিশন ও স্পিড কন্ট্রোলার
+        // 🎰 ওরিজিনাল ৩-রিলের লাইভ স্ক্রলিং পজিশন ও স্পিড কন্ট্রোলার চাবি ভাই ভাই
         let reels = [
-            { symbols: ["🍒", "🍋", "🍊"], y: 0, speed: 0, targetY: 0 },
-            { symbols: ["🍋", "🍊", "🍫"], y: 0, speed: 0, targetY: 0 },
-            { symbols: ["🍊", "🍫", "💎"], y: 0, speed: 0, targetY: 0 }
+            { symbols: ["🍒", "🍉", "🍋", "🍇"], y: 0, speed: 0, targetY: 0 },
+            { symbols: ["🍋", "🍇", "🍉", "🍒"], y: 0, speed: 0, targetY: 0 },
+            { symbols: ["🍉", "🍒", "🍇", "🍋"], y: 0, speed: 0, targetY: 0 }
         ];
 
-        const reelWidth = 100;
+        const reelwidth = 100;
         const reelHeight = 220;
         const itemHeight = 70;
-        const startX = (canvas.width - (3 * reelWidth)) / 2;
+        const startX = (canvas.width - (3 * reelwidth)) / 2;
 
         function renderSlotMachine() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // ৩টি রিল ব্যাকগ্রাউন্ড গ্রিড পারফেক্ট ড্রয়িং ভাই ভাই
+            // ৩টি রিল ব্যাকগ্রাউন্ড গ্রিড পারফেক্ট ড্রয়িং ভাই ভাই
             for (let i = 0; i < 3; i++) {
-                const rx = startX + (i * reelWidth);
-                
+                const rx = startX + (i * reelwidth);
+
                 // রিল বডি বর্ম
                 ctx.fillStyle = "#0f1524";
-                ctx.fillRect(rx, 0, reelWidth - 6, reelHeight);
+                ctx.fillRect(rx, 0, reelwidth - 6, reelHeight);
                 ctx.strokeStyle = "#1a233d";
                 ctx.lineWidth = 2;
-                ctx.strokeRect(rx, 0, reelWidth - 6, reelHeight);
+                ctx.strokeRect(rx, 0, reelwidth - 6, reelHeight);
 
                 // আইকনগুলো স্ক্রলিং মোশনে লুপ প্রিন্টিং ভাই ভাই
                 ctx.save();
                 ctx.beginPath();
-                ctx.rect(rx, 0, reelWidth - 6, reelHeight);
+                ctx.rect(rx, 0, reelwidth - 6, reelHeight);
                 ctx.clip();
 
                 const currentY = reels[i].y;
@@ -117,14 +123,18 @@
                     const py = (j * itemHeight) + (currentY % itemHeight);
 
                     ctx.fillStyle = "#ffffff";
-                    ctx.font = "38px Arial";
+                    // 🚀 [মেইন ফিক্স]: ওরিজিনাল ফন্ট সাইজ ৪০ পিক্সেল ও পিউর ফ্রুট ইমোজি সিঙ্ক লক ভাই ভাই!
+                    ctx.font = "40px Arial";
                     ctx.textAlign = "center";
                     ctx.textBaseline = "middle";
-                    
-                    // আইকন গ্লো বুস্টার শ্যাডো ট্রিকস ভাই ভাই
+
+                    // আইকন গ্লো বুস্টার শ্যাডো ট্রিক্স ভাই ভাই
                     ctx.shadowColor = "#f1c40f";
                     ctx.shadowBlur = isSpinning ? 8 : 0;
-                    ctx.fillText(sym, rx + (reelWidth - 6)/2, py + itemHeight/2);
+                    
+                    // সার্ভার বা কাস্টম থেকে আসা কোড টেক্সটকে ইমোজিতে রূপান্তর ক্যাচ ভাই ভাই
+                    const finalEmoji = iconSymbols[sym] || sym;
+                    ctx.fillText(finalEmoji, rx + (reelwidth - 6) / 2, py + itemHeight / 2);
                     ctx.shadowBlur = 0;
                 }
                 ctx.restore();
@@ -135,24 +145,24 @@
             ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.moveTo(startX, canvas.height / 2);
-            ctx.lineTo(startX + (3 * reelWidth) - 6, canvas.height / 2);
+            ctx.lineTo(startX + (3 * reelwidth) - 6, canvas.height / 2);
             ctx.stroke();
         }
 
-        // 🧠 [৩-রিল হাই-স্পিড স্মুথ স্ক্রলিং এনিমেশন লুপ ইঞ্জিন ভাই ভাই]
         function updateSlotAnimation() {
             let stillSpinning = false;
 
             for (let i = 0; i < 3; i++) {
-                if (reels[i].speed > 0.2) {
+                if (reels[i].speed > 0) {
                     reels[i].y += reels[i].speed;
-                    reels[i].speed *= 0.96; // স্মুথ ঘর্ষণ ব্রেক মেকানিজম ভাই ভাই
+                    reels[i].speed *= 0.96; // 🚀 ঘূর্ণন স্পিড ফিজিক্স স্মুথ ব্রেক মেকানিজম ভাই ভাই
                     stillSpinning = true;
-                } else if (reels[i].speed > 0) {
-                    // টার্গেট ঘরে এসে জাস্ট কড়া লক চাপবে ভাই
-                    reels[i].speed = 0;
-                    reels[i].y = reels[i].targetY;
-                    playAudio('click'); // 🚀 রিল লক হওয়ার খুটখুট সাউন্ড লক ভাই ভাই
+
+                    if (reels[i].speed < 0.2) {
+                        reels[i].speed = 0;
+                        reels[i].y = reels[i].targetY;
+                        playAudio('click1'); // রিল খটখট করে লক হওয়ার ব্রেক সাউন্ড
+                    }
                 }
             }
 
@@ -175,6 +185,9 @@
                 }
             });
         }
+
+
+            
 
         async function fetchLiveBalance() {
             try {
