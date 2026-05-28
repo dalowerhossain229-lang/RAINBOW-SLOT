@@ -238,6 +238,8 @@
             playAudio('click');
         }
         
+        
+             // 🚀 [রিল স্টপিং এবং কম্বিনেশন অমিল সম্পূর্ণ ফিক্সড কিংস বর্ম ভাই ভাই]
         async function handleSlotSpin() {
             if (isSpinning) return;
 
@@ -250,9 +252,11 @@
             playAudio('click');
             playAudio('spin'); 
 
-            reels.forEach(r => {
-                r.speed = 16 + (Math.random() * 6); 
-            });
+            // স্পিন শুরুর বুস্টিং স্পিড পুশ ভাই ভাই
+            reels[0].speed = 18;
+            reels[1].speed = 22;
+            reels[2].speed = 26;
+            
             requestAnimationFrame(updateSlotAnimation);
 
             try {
@@ -273,41 +277,45 @@
                     if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
                     if (window.top) window.top.postMessage({ action: "refresh_wallet" }, "*");
 
-                    // 🎯 [রিল স্টপিং ফিজিক্স গাইড চাবি]: সার্ভার থেকে আসা ওরিজিনাল ৩টি ফলকে ৩টি রিলে আলাদাভাবে মাখনের মতো এলাইন লক!
+                    // 🎯 [ওরিজিনাল কম্বিনেশন সিঙ্ক চাবি]: সার্ভার থেকে আসা ১ শতভাগ রিয়াল ডাটা আইকন সরাসরি রিল মেমরিতে পুশ লক ভাই ভাই!
                     setTimeout(() => { 
-                        reels[0].symbols = [data.reel1, "🍉", "🍒"]; 
+                        reels[0].symbols = [data.reel1, "🍉", "🍒", "🍋"]; 
                         reels[0].speed = 0; 
+                        reels[0].y = 0;
                         playAudio('click1'); 
                     }, 800);
                     
                     setTimeout(() => { 
-                        reels[1].symbols = [data.reel2, "LEMON", "GRAPE"]; 
+                        reels[1].symbols = [data.reel2, "🍋", "GRAPE", "BAR"]; 
                         reels[1].speed = 0; 
+                        reels[1].y = 0;
                         playAudio('click1'); 
                     }, 1200);
                     
                     setTimeout(() => {
-                        reels[2].symbols = [data.reel3, "🔔", "BAR"]; 
+                        reels[2].symbols = [data.reel3, "🔔", "BAR", "CHERRY"]; 
                         reels[2].speed = 0; 
-                        playAudio('click1'); // ৩ নম্বর রিল খট করে লক হওয়ার সাউন্ড ভাই ভাই
+                        reels[2].y = 0;
+                        playAudio('click1'); 
                         
-                        // ৩টি রিল সম্পূর্ণ লক হওয়ার পর ফাইনাল রিওয়ার্ড প্রফিট শোডাউন হবে ভাই
+                        // ৩টি কলাম ফিক্সড লক হওয়ার পর ফাইনাল পুরষ্কার ডিক্লেয়ার হবে ভাই ভাই
                         setTimeout(() => {
                             showFinalReward(data.status, data.winAmount, data.reel1);
                         }, 400);
                     }, 1600);
 
                 } else {
-                    reels.forEach(r => r.speed = 0.5);
+                    reels.forEach(r => r.speed = 0);
                     alert(data.message || "❌ Insufficient Balance! Please Recharge.");
                     stopSlotState();
                 }
             } catch (err) {
-                reels.forEach(r => r.speed = 0.5);
+                reels.forEach(r => r.speed = 0);
                 alert("⚠️ সেশন আউট! আবার SPIN বোতাম চাপুন ভাই ভাই।");
                 stopSlotState();
             }
         }
+   
 
         
         function showFinalReward(status, winAmount, combination) {
