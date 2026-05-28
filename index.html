@@ -224,27 +224,26 @@
             if (isAuto && !isSpinning) handleSlotSpin();
             playAudio('click');
         }
-
         async function handleSlotSpin() {
             if (isSpinning) return;
 
             document.getElementById("win-status-box").className = "win-status-container";
-            document.getElementById("win-text-msg").innerText = "🎰 রিল শোঁ শোঁ করে ঘুরছে...";
+            document.getElementById("win-text-msg").innerText = "🎰 রেনবো রিল শোঁ শোঁ করে ঘুরছে...";
 
             isSpinning = true;
             document.getElementById("spin-btn").disabled = true;
             
             playAudio('click');
-            playAudio('spin'); // 🚀 রিল ওড়ার কড়া ক্যাসিনো spin2.mp3 সাউন্ড ফায়ার লক ভাই!
+            playAudio('spin'); 
 
-            // ফ্রন্টএন্ডে রিল ৩টি এক টানা স্পিডে স্ক্রলিং এনিমেশন মোড চালু ভাই ভাই
             reels.forEach(r => {
-                r.speed = 15 + (Math.random() * 8); // ডাইনামিক র্যান্ডম স্পিড রান ভাই ভাই
+                r.speed = 15 + (Math.random() * 8); 
             });
             requestAnimationFrame(updateSlotAnimation);
 
             try {
-                const response = await fetch(`${SERVER_URL}/api/rainbowslot-spin`, {
+                // ডাইস-৩ডি এর মতো সরাসরি ডাইনামিক SERVER_URL লোকাল রাউটিং গেটওয়ে হিট লক ভাই ভাই!
+                const response = await fetch(`${SERVER_URL}/api/rainbow-spin`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -261,29 +260,25 @@
                     if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
                     if (window.top) window.top.postMessage({ action: "refresh_wallet" }, "*");
 
-                    // 🎯 [রিল স্টপিং ফিজিক্স গাইড চাবি ভাই ভাই]: ব্যাকএন্ডের প্রতীক তালিকায় ৩টি রিলকে এক লাইনে এলাইন লক!
+                    // ৩-রিল ফ্রেমের ওরিজিনাল লোকাল ক্যাসিনো ডাটা এলাইনমেন্ট সিঙ্ক চাবি ভাই ভাই
+                    setTimeout(() => { reels[0].symbols = [data.reel1, "🍉", "🍒"]; reels[0].targetY = 0; }, 1000);
+                    setTimeout(() => { reels[1].symbols = [data.reel2, "🍋", "🍇"]; reels[1].targetY = 0; }, 1400);
+                    
                     setTimeout(() => {
-                        reels[0].symbols = [data.reel1, "🍒", "🍋"]; reels[0].targetY = 0;
-                    }, 1000);
-
-                    setTimeout(() => {
-                        reels[1].symbols = [data.reel2, "🍋", "🍊"]; reels[1].targetY = 0;
-                    }, 1400);
-
-                    setTimeout(() => {
-                        reels[2].symbols = [data.reel3, "🍊", "🍫"]; reels[2].targetY = 0;
+                        reels[2].symbols = [data.reel3, "🔔", "BAR"]; reels[2].targetY = 0;
                         
-                        // ৩টি রিল সম্পূর্ণ স্টপ হওয়ার পর ফাইনাল প্রফিট শোডাউন হবে ভাই ভাই
                         setTimeout(() => {
-                            showFinalReward(data.status, data.winAmount, data.combination);
+                            showFinalReward(data.status, data.winAmount, data.reel1);
                         }, 500);
                     }, 1800);
 
                 } else {
+                    reels.forEach(r => r.speed = 0.5);
                     alert(data.message || "❌ Insufficient Balance! Please Recharge.");
                     stopSlotState();
                 }
             } catch (err) {
+                reels.forEach(r => r.speed = 0.5);
                 alert("⚠️ সেশন আউট! আবার SPIN বোতাম চাপুন ভাই ভাই।");
                 stopSlotState();
             }
@@ -295,14 +290,14 @@
 
             if (status === "win") {
                 if (winAmount >= (currentBet * 5)) {
-                    playAudio('bigwin'); // 🚀 ৫ গুণের বেশি মেগা ৩-চিহ্ন জ্যাকপট মিললে bigwin1.mp3 ভাই ভাই
+                    playAudio('bigwin'); // ৫ গুণের বেশি প্রফিট হলে মেগা bigwin1.mp3 ব্লাস্ট ভাই ভাই!
                 } else {
-                    playAudio('win'); // 🚀 সাধারণ লাইন ২-চিহ্ন প্রফিট উইন হলে win2.mp3 ভাই ভাই
+                    playAudio('win'); // সাধারণ উইন হলে win2.mp3 চাবি
                 }
                 msgBox.className = "win-status-container win-glow-bar";
-                textMsg.innerText = `🏆 মেগা উইন!! কম্বো মিলেছে: [${combination}] (৳${winAmount})`;
+                textMsg.innerText = `🏆 মেগা উইন!! কম্বিনেশন মিলেছে: [${combination}] = ৳${winAmount}`;
             } else {
-                playAudio('wheel'); // 🚀 ৩টি ঘর অমিল বা লস হলে wheel1.mp3 ব্যাকআপ সাউন্ড ফায়ার লক!
+                playAudio('wheel'); // লস ব্যাকআপ wheel1.mp3 সাউন্ড লক ভাই ভাই
                 msgBox.className = "win-status-container lose-glow-bar";
                 textMsg.innerText = "❌ ওহ! এই রাউন্ডে রিল মেলেনি। আবার ট্রাই করুন ভাই ভাই!";
             }
@@ -323,13 +318,13 @@
             if (!isAuto && autoInterval) clearTimeout(autoInterval);
         }
 
-        // 🎯 [৫টি প্রিমিয়াম সাউন্ড ও বাফার গেটওয়ে লক ভাই ভাই]
+        // 🎯 [৪টি ওরিজিনাল প্রিমিয়াম ক্যাসিনো সাউন্ড ও বাফার গেটওয়ে লক ভাই ভাই]
         const slotSounds = {
-            click: new Audio('click2.mp3'),   // 🚀 বাটন ক্লিক
-            spin: new Audio('spin2.mp3'),     // 🚀 শোঁ শোঁ রিল ঘূর্ণন সাউন্ড
-            win: new Audio('win2.mp3'),       // 🚀 নরমাল লাইন উইন
-            bigwin: new Audio('bigwin1.mp3'), // 🚀 মেগা জ্যাকপট ব্লাস্ট
-            wheel: new Audio('wheel1.mp3')    // 🚀 লস ব্যাকআপ সাউন্ড
+            click: new Audio('click2.mp3'),
+            spin: new Audio('spin2.mp3'),
+            win: new Audio('win2.mp3'),
+            bigwin: new Audio('bigwin1.mp3'),
+            wheel: new Audio('wheel1.mp3')
         };
         Object.values(slotSounds).forEach(s => s.load());
 
@@ -343,4 +338,3 @@
     </script>
 </body>
 </html>
-
