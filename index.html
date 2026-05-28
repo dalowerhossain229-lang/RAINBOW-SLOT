@@ -224,6 +224,7 @@
             if (isAuto && !isSpinning) handleSlotSpin();
             playAudio('click');
         }
+        
         async function handleSlotSpin() {
             if (isSpinning) return;
 
@@ -237,12 +238,11 @@
             playAudio('spin'); 
 
             reels.forEach(r => {
-                r.speed = 15 + (Math.random() * 8); 
+                r.speed = 16 + (Math.random() * 6); 
             });
             requestAnimationFrame(updateSlotAnimation);
 
             try {
-                // ডাইস-৩ডি এর মতো সরাসরি ডাইনামিক SERVER_URL লোকাল রাউটিং গেটওয়ে হিট লক ভাই ভাই!
                 const response = await fetch(`${SERVER_URL}/api/rainbow-spin`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -260,17 +260,29 @@
                     if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
                     if (window.top) window.top.postMessage({ action: "refresh_wallet" }, "*");
 
-                    // ৩-রিল ফ্রেমের ওরিজিনাল লোকাল ক্যাসিনো ডাটা এলাইনমেন্ট সিঙ্ক চাবি ভাই ভাই
-                    setTimeout(() => { reels[0].symbols = [data.reel1, "🍉", "🍒"]; reels[0].targetY = 0; }, 1000);
-                    setTimeout(() => { reels[1].symbols = [data.reel2, "🍋", "🍇"]; reels[1].targetY = 0; }, 1400);
+                    // 🎯 [রিল স্টপিং ফিজিক্স গাইড চাবি]: সার্ভার থেকে আসা ওরিজিনাল ৩টি ফলকে ৩টি রিলে আলাদাভাবে মাখনের মতো এলাইন লক!
+                    setTimeout(() => { 
+                        reels[0].symbols = [data.reel1, "🍉", "🍒"]; 
+                        reels[0].speed = 0; 
+                        playAudio('click1'); 
+                    }, 800);
+                    
+                    setTimeout(() => { 
+                        reels[1].symbols = [data.reel2, "LEMON", "GRAPE"]; 
+                        reels[1].speed = 0; 
+                        playAudio('click1'); 
+                    }, 1200);
                     
                     setTimeout(() => {
-                        reels[2].symbols = [data.reel3, "🔔", "BAR"]; reels[2].targetY = 0;
+                        reels[2].symbols = [data.reel3, "🔔", "BAR"]; 
+                        reels[2].speed = 0; 
+                        playAudio('click1'); // ৩ নম্বর রিল খট করে লক হওয়ার সাউন্ড ভাই ভাই
                         
+                        // ৩টি রিল সম্পূর্ণ লক হওয়ার পর ফাইনাল রিওয়ার্ড প্রফিট শোডাউন হবে ভাই
                         setTimeout(() => {
                             showFinalReward(data.status, data.winAmount, data.reel1);
-                        }, 500);
-                    }, 1800);
+                        }, 400);
+                    }, 1600);
 
                 } else {
                     reels.forEach(r => r.speed = 0.5);
@@ -284,6 +296,7 @@
             }
         }
 
+        
         function showFinalReward(status, winAmount, combination) {
             const msgBox = document.getElementById("win-status-box");
             const textMsg = document.getElementById("win-text-msg");
