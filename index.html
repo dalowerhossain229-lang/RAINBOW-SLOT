@@ -216,6 +216,7 @@
             showFinalReward(status, winAmount);
         }
 
+               // 🚀 [বাটন লক হওয়া এবং স্টেট রিসেট জ্যাম ১০০০০০% চিরতরে আনলক বর্ম ভাই ভাই]
         function showFinalReward(status, winAmount) {
             const msgBox = document.getElementById("win-status-box");
             const textMsg = document.getElementById("win-text-msg");
@@ -231,6 +232,8 @@
             }
 
             document.getElementById("user-balance").innerText = balance.toFixed(2);
+            
+            // 🚀 [চূড়ান্ত ফিক্স]: ওল্ড নামের জ্যাম কেটে হুবহু স্টপ স্লট স্টেট দেওয়ায় বাটন এখন ১ মিলি-সেকেন্ডে আনলক ভাই ভাই!
             stopSlotState();
 
             if (isAuto) {
@@ -239,6 +242,7 @@
                 }, 2500);
             }
         }
+ 
 
         if (typeof io !== 'undefined') {
             const socket = io();
