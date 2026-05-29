@@ -254,7 +254,7 @@
             }
         };
 
-        function adjustBet(action) {
+              function adjustBet(action) {
             if (isSpinning) return;
             if (action === 'minus' && currentBet > 1) {
                 if (currentBet <= 10) currentBet -= 1;
@@ -292,10 +292,16 @@
             try { slotSounds.click.play(); } catch(e){}
         }
 
+        // 🚀 [বাটন আনলক মেগা বর্ম]: স্পিন শেষ হওয়ার পর প্রধান বোতাম ও অটো বোতাম ১০০% রিলিজ লক ভাই ভাই!
         function stopSlotState() {
             isSpinning = false;
-            document.getElementById("spin-btn").disabled = false;
-            if (!isAuto && autoInterval) clearTimeout(autoInterval);
+            document.getElementById("spin-btn").disabled = false; // প্রধান বাটন সচল
+            
+            // অটো স্পিন একটিভ না থাকলে অটো বোতামের রেড এলার্ট রিমুভ ভাই ভাই
+            if (!isAuto) {
+                document.getElementById("auto-btn").classList.remove("active");
+                if (autoInterval) clearTimeout(autoInterval);
+            }
         }
 
         // 🎯 [৪টি ওরিজিনাল প্রিমিয়াম ক্যাসিনো সাউন্ড ও বাফার গেটওয়ে লক ভাই ভাই]
@@ -309,3 +315,4 @@
     </script>
 </body>
 </html>
+  
