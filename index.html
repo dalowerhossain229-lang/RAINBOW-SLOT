@@ -138,7 +138,7 @@
             }
         }
 
-        // 🚀 ৯টি নিয়ন ঘরে ৩×৩ আকারে ওরিজিনাল ইমেজ ইনজেকশন এবং উইন হাইলাইট বর্ম ভাই ভাই!
+               // 🚀 [বাটন লক হওয়া এবং কোঅর্ডিনেট জ্যাম ১০০০০০% চিরতরে আনলক বর্ম ভাই ভাই]
         function stopAllReelsWithMatrix(matrix, winAmount, status, winningLines) {
             for (let row = 0; row < 3; row++) {
                 for (let col = 0; col < 3; col++) {
@@ -151,27 +151,26 @@
                 }
             }
 
-            // উইনিং পেলাইন এবং এনিহোয়ার ৩-ম্যাচ ঘরগুলোকে নিয়ন গ্লো দিয়ে হাইলাইট করার জাদুকরী ট্রিকস ভাই ভাই!
             if (status === "win" && winningLines && winningLines.length > 0) {
                 const cells = document.querySelectorAll(".slot-cell");
-                cells.forEach(c => c.classList.add("dim-effect")); // বাকি ঘরগুলো আবছা হবে
+                cells.forEach(c => c.classList.add("dim-effect")); 
 
                 winningLines.forEach(lineId => {
                     let coordinates = [];
-                    // ৩×৩ গ্রিডের নিখুঁত রিয়েল ইনডেক্স বসালাম ভাই ভাই!
-                    if (lineId === "LINE_1") coordinates = [[0,0], [0,1], [0,2]]; // ওপরের সোজা সারি
-                    if (lineId === "LINE_2") coordinates = [[1,0], [1,1], [1,2]]; // মাঝের সোজা সারি
-                    if (lineId === "LINE_3") coordinates = [[2,0], [2,1], [2,2]]; // নিচের সোজা সারি
-                    if (lineId === "LINE_4") coordinates = [[0,0], [1,1], [2,2]]; // কোনাকুনি বাম-টু-ডান
-                    if (lineId === "LINE_5") coordinates = [[0,2], [1,1], [2,0]]; // কোনাকুনি ডান-টু-বাম
+                    // 🚀 [মেগা ফিক্স]: ওল্ড ফাঁকা কমা ব্র্যাকেট কেটে ৩×৩ গ্রিডের নিখুঁত রিয়েল ম্যাট্রিক্স ইনডেক্স বসালাম ভাই ভাই!
+                    if (lineId === "LINE_1") coordinates = ["0-0", "0-1", "0-2"]; // ওপরের সোজা সারি
+                    if (lineId === "LINE_2") coordinates = ["1-0", "1-1", "1-2"]; // মাঝের সোজা সারি
+                    if (lineId === "LINE_3") coordinates = ["2-0", "2-1", "2-2"]; // নিচের সোজা সারি
+                    if (lineId === "LINE_4") coordinates = ["0-0", "1-1", "2-2"]; // কোনাকুনি বাম-টু-ডান
+                    if (lineId === "LINE_5") coordinates = ["0-2", "1-1", "2-0"]; // কোনাকুনি ডান-টু-বাম
                     
                     if (Array.isArray(lineId)) coordinates = lineId; 
 
                     coordinates.forEach(pos => {
-                        const cell = document.getElementById(`cell-${pos[0]}-${pos[1]}`);
+                        const cell = document.getElementById(`cell-${pos}`);
                         if (cell) {
                             cell.classList.remove("dim-effect");
-                            cell.classList.add("win-highlight"); // বিজয়ী ঘরগুলো নিয়ন গ্লো জ্বলবে!
+                            cell.classList.add("win-highlight");
                         }
                     });
                 });
@@ -179,6 +178,7 @@
 
             showFinalReward(status, winAmount);
         }
+ 
 
         // 🚀 [বাটন লক হওয়া এবং ক্লাস লিস্ট জ্যাম ১০০০০০% চিরতরে আনলক বর্ম ভাই ভাই]
         function showFinalReward(status, winAmount) {
